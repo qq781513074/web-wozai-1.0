@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AccountInfoMapper">
+    <!--<resultMap id="BaseResultMap"  type="BusinessLogParam" >
+        <id column = "id"  property = "id"  jdbcType = "DECIMAL"/>
+        <result column = "ip" property = "ip" jdbcType = "VARCHAR"/>
+        <result column = "computer_name" property = "computerName" jdbcType = "VARCHAR"/>
+        <result column = "operator_id" property = "operatorId" jdbcType = "VARCHAR"/>
+        <result column = "operator" property = "operator" jdbcType = "VARCHAR"/>
+        <result column = "operate_time" property = "operateTime" jdbcType = "TIMESTAMP"/>
+        <result column = "interface_path" property = "interfacePath" jdbcType = "VARCHAR"/>
+        <result column = "business_no" property = "businessNo" jdbcType = "VARCHAR"/>
+        <result column = "module_no" property = "moduleNo" jdbcType = "VARCHAR"/>
+        <result column = "module_name" property = "moduleName" jdbcType = "VARCHAR"/>
+        <result column = "module_desc" property = "moduleDesc" jdbcType = "VARCHAR"/>
+        <result column = "result" property = "result" jdbcType = "VARCHAR"/>
+        <result column = "status" property = "status" jdbcType = "VARCHAR"/>
+        <result column = "statusDesc" property = "status_desc" jdbcType = "VARCHAR"/>
+    </resultMap>
+-->
+   <!-- <insert id="createBusinessLog" keyProperty="id"  useGeneratedKeys="true" parameterType="BusinessLogParam">
+        INSERT INTO business_operation_log(
+          ip,computer_name,operator_id,operator,operate_time,interface_path,
+          business_no,module_no,module_name,module_desc,result,status,status_desc
+        ) VALUES(
+          #{ip,jdbcType=VARCHAR},
+          #{computerName,jdbcType=VARCHAR},
+          #{operatorId,jdbcType=VARCHAR},
+          #{operator,jdbcType=VARCHAR},
+          now(),
+          #{interfacePath,jdbcType=VARCHAR},
+          #{businessNo,jdbcType=VARCHAR},
+          #{moduleNo,jdbcType=VARCHAR},
+          #{moduleName,jdbcType=VARCHAR},
+          #{moduleDesc,jdbcType=VARCHAR},
+          #{result,jdbcType=VARCHAR},
+          #{status,jdbcType=VARCHAR},
+          #{statusDesc,jdbcType=INTEGER}
+        )
+     </insert>-->
+
+    <select id="queryOneAccountInfo" parameterType="String" resultType="AccountInfo">
+      SELECT
+        userid,userpwd,nickname,locinfo,unreadmsg ,wrongtimes,userstatus,defaultloc
+      FROM accountinfo
+      WHERE userid = #{userid}
+   </select>
+   <insert id="createAccount" parameterType="AccountInfo">
+       INSERT INTO accountinfo(userid,userpwd,nickname,locinfo,unreadmsg ,wrongtimes,userstatus,defaultloc)
+       VALUES (#{userId},#{userPwd},#{nickname},#{locInfo},#{unreadMsg},#{wrongTimes},#{userStatus},#{defaultLoc})
+   </insert>
+   <select id="userIdIsExsit" parameterType="String" resultType="INTEGER">
+       SELECT count(1)
+       FROM accountInfo
+       WHERE userid = #{userId}
+   </select>
+</mapper>

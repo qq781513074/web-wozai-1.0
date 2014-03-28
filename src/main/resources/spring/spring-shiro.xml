@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/login.htm" />
+        <property name="successUrl" value="/welcome.htm" />
+        <property name="unauthorizedUrl" value="/htmls/nopermission.html" />
+        <property name="filterChainDefinitions">
+            <value>
+                /css/** = anon
+                /htmls/** = anon
+                /images/** = anon
+                /js/** = anon
+                /mobile/** = anon
+                /htmls/** = anon
+                /logout = logout
+                /pages/manage/** = roles[admin]
+                /permission/** = perms[permssion:look]
+                /common/** = anon
+                /javamelody = roles[admin]
+                /beatCheck.htm = anon
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- 单realm应用。如果有多个realm，使用‘realms’属性代替 -->
+        <property name="realm" ref="sampleRealm" />
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+
+    <bean id="sampleRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+        <property name="dataSource" ref="sampleDataSource" />
+<!--        <property name="userRolesQuery"
+                  value="select a.rolename from my_user_role t left join my_role a on t.roleid = a.id where t.username = ? " />
+        <property name="permissionsQuery"
+                  value="SELECT B.PERMISSION FROM MY_ROLE T LEFT JOIN MY_ROLE_PERMISSION A ON T.ID = A.ROLE_ID LEFT JOIN MY_PERMISSION B ON A.PERMISSION = B.ID WHERE T.ROLENAME = ? " />
+        <property name="permissionsLookupEnabled" value="true" />
+        <property name="saltStyle" value="NO_SALT" />-->
+        <property name="credentialsMatcher" ref="hashedCredentialsMatcher" />
+    </bean>
+
+    <bean id="hashedCredentialsMatcher"
+          class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="SHA1" />
+        <property name="storedCredentialsHexEncoded" value="true" />
+        <property name="hashIterations" value="1" />
+    </bean>
+</beans>

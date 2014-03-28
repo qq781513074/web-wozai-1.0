@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ClassroomMapper">
+    <resultMap id="BaseResultMap"  type="ClassroomInfoResultDTO" >
+        <id column = "id"  property = "id"  jdbcType = "DECIMAL"/>
+        <result column = "CLASSROOM_CUR_MAN" property = "classroom_cur_man" jdbcType = "DECIMAL"/>
+        <result column = "CLASSROOM_MAX_MAN" property = "classroom_max_man" jdbcType = "DECIMAL"/>
+        <result column = "CLASSROOM_NAME" property = "classroom_name" jdbcType = "VARCHAR"/>
+        <result column = "LOC_ID" property = "loc_id" jdbcType = "DECIMAL"/>
+        <result column = "CURR_STATUS" property = "curr_status" jdbcType = "VARCHAR"/>
+        <result column = "CURR_STATUS_CODE" property = "curr_status_code" jdbcType = "DECIMAL"/>
+        <result column = "CLASSROOM_TYPE" property = "classroom_type" jdbcType = "VARCHAR"/>
+        <result column = "CLASS1" property = "class1" jdbcType = "DECIMAL"/>
+        <result column = "CLASS2" property = "class2" jdbcType = "DECIMAL"/>
+        <result column = "CLASS3" property = "class3" jdbcType = "DECIMAL"/>
+        <result column = "CLASS4" property = "class4" jdbcType = "DECIMAL"/>
+        <result column = "CLASS5" property = "class5" jdbcType = "DECIMAL"/>
+        <result column = "CLASS6" property = "class6" jdbcType = "DECIMAL"/>
+        <result column = "CLASS7" property = "class7" jdbcType = "DECIMAL"/>
+        <result column = "CLASS8" property = "class8" jdbcType = "DECIMAL"/>
+        <result column = "CLASS9" property = "class9" jdbcType = "DECIMAL"/>
+        <result column = "CLASS10" property = "class10" jdbcType = "DECIMAL"/>
+        <result column = "CLASS11" property = "class11" jdbcType = "DECIMAL"/>
+        <result column = "CLASS12" property = "class12" jdbcType = "DECIMAL"/>
+        <result column = "CLASS_DATE" property = "class_date" jdbcType = "DECIMAL"/>
+        <result column = "DEL_FLAG" property = "del_flag" jdbcType = "DECIMAL"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+    CLASSROOM_CUR_MAN,CLASSROOM_MAX_MAN,CLASSROOM_NAME,LOC_ID,CURR_STATUS,CURR_STATUS_CODE,CLASSROOM_TYPE,
+    CLASS1,CLASS2,CLASS3,CLASS4,CLASS5,CLASS6,CLASS7,CLASS8,CLASS9,CLASS10,CLASS11,CLASS12,CLASS_DATE,DEL_FLAG
+    </sql>
+    <select id="getList" resultMap="BaseResultMap" parameterType="ClassroomInfoParamDTO">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM class_info
+        WHERE  1=1
+        <include refid="commonConditions"/>
+    </select>
+
+    <insert id="insertInfo" parameterType="ClassroomInfoParamDTO">
+      INSERT INTO class_info (CLASSROOM_CUR_MAN,CLASSROOM_MAX_MAN,CLASSROOM_NAME,LOC_ID,CURR_STATUS,CURR_STATUS_CODE,CLASSROOM_TYPE,
+    CLASS1,CLASS2,CLASS3,CLASS4,CLASS5,CLASS6,CLASS7,CLASS8,CLASS9,CLASS10,CLASS11,CLASS12,CLASS_DATE)
+    VALUES (
+        #{classroom_cur_man,jdbcType=DECIMAL},
+        #{classroom_max_man,jdbcType=DECIMAL},
+        #{classroom_name,jdbcType=VARCHAR},
+        #{loc_id,jdbcType=DECIMAL},
+        #{curr_status,jdbcType=VARCHAR},
+        #{curr_status_code,jdbcType=DECIMAL},
+        #{classroom_type,jdbcType=VARCHAR},
+        #{class1,jdbcType=DECIMAL},
+        #{class2,jdbcType=DECIMAL},
+        #{class3,jdbcType=DECIMAL},
+        #{class4,jdbcType=DECIMAL},
+        #{class5,jdbcType=DECIMAL},
+        #{class6,jdbcType=DECIMAL},
+        #{class7,jdbcType=DECIMAL},
+        #{class8,jdbcType=DECIMAL},
+        #{class9,jdbcType=DECIMAL},
+        #{class10,jdbcType=DECIMAL},
+        #{class11,jdbcType=DECIMAL},
+        #{class12,jdbcType=DECIMAL},
+        #{class_date,jdbcType=DECIMAL}
+    )
+    </insert>
+
+    <update id="updateInfo" parameterType="ClassroomInfoParamDTO">
+        UPDATE class_info
+        SET
+        CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR}
+        <if test="classroom_cur_man != null">
+          ,CLASSROOM_CUR_MAN = #{classroom_cur_man,jdbcType=DECIMAL}
+        </if>
+        <if test="classroom_max_man != null">
+           ,CLASSROOM_MAX_MAN = #{classroom_max_man,jdbcType=DECIMAL}
+        </if>
+        <if test="loc_id != null">
+           ,LOC_ID  = #{loc_id,jdbcType=DECIMAL},
+        </if>
+        <if test="curr_status != null">
+          ,CURR_STATUS = #{curr_status,jdbcType=VARCHAR}
+        </if>
+        <if test="curr_status_code != null">
+           ,CURR_STATUS_CODE = #{curr_status_code,jdbcType=DECIMAL}
+        </if>
+        <if test="classroom_type != null">
+            ,CLASSROOM_TYPE = #{classroom_type,jdbcType=VARCHAR}
+        </if>
+        <if test="class1 != null">
+          ,CLASS1 = #{class1,jdbcType=DECIMAL}
+        </if>
+        <if test="class2 != null">
+            ,CLASS2 = #{class2,jdbcType=DECIMAL}
+        </if>
+        <if test="class3 != null">
+            ,CLASS3 = #{class3,jdbcType=DECIMAL}
+        </if>
+        <if test="class4 != null">
+            ,CLASS4 = #{class4,jdbcType=DECIMAL}
+        </if>
+        <if test="class5 != null">
+            ,CLASS5 = #{class5,jdbcType=DECIMAL}
+        </if>
+        <if test="class6 != null">
+            ,CLASS6 = #{class6,jdbcType=DECIMAL}
+        </if>
+        <if test="class7 != null">
+            ,CLASS7 = #{class7,jdbcType=DECIMAL}
+        </if>
+        <if test="class8 != null">
+            ,CLASS8 = #{class8,jdbcType=DECIMAL}
+        </if>
+        <if test="class9 != null">
+            ,CLASS9 = #{class9,jdbcType=DECIMAL}
+        </if>
+        <if test="class10 != null">
+            ,CLASS10 = #{class10,jdbcType=DECIMAL}
+        </if>
+        <if test="class11 != null">
+            ,CLASS11 = #{class11,jdbcType=DECIMAL}
+        </if>
+        <if test="class12 != null">
+            ,CLASS12 = #{class12,jdbcType=DECIMAL}
+        </if>
+        <if test="del_flag != null">
+            ,DEL_FLAG = #{del_flag,jdbcType=DECIMAL}
+        </if>
+        WHERE
+        CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}
+    </update>
+    <update id="deleteInfo" parameterType="ClassroomInfoParamDTO">
+      UPDATE class_info
+        SET
+        DEL_FLAG = 0
+      FROM class_info WHERE  CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}
+    </update>
+    <delete id="doRealdelete" parameterType="ClassroomInfoParamDTO">
+       DELETE class_info
+      FROM class_info WHERE  CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}  AND DEL_FLAG = 0
+    </delete>
+    <sql id="commonConditions">
+        <if test="classroom_name != null">
+            AND CLASSROOM_NAME like concat('%',#{classroom_name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="curr_status != null">
+            AND CURR_STATUS = #{curr_status,jdbcType=VARCHAR}
+        </if>
+        <if test="curr_status_code != null">
+            AND CURR_STATUS_CODE = #{curr_status_code,jdbcType=DECIMAL}
+        </if>
+        <if test="classroom_max_man != null">
+            AND CLASSROOM_MAX_MAN = #{classroom_max_man,jdbcType=DECIMAL}
+        </if>
+        <if test="class_date != null">
+            AND CLASS_DATE = #{class_date,jdbcType=DECIMAL}
+        </if>
+        <if test="class1 != null">
+            AND CLASS1 = #{class1,jdbcType=DECIMAL}
+        </if>
+        <if test="class2 != null">
+            AND CLASS2 = #{class2,jdbcType=DECIMAL}
+        </if>
+        <if test="class3 != null">
+            AND CLASS3 = #{class3,jdbcType=DECIMAL}
+        </if>
+        <if test="class4 != null">
+            AND CLASS4 = #{class4,jdbcType=DECIMAL}
+        </if>
+        <if test="class5 != null">
+            AND CLASS5 = #{class5,jdbcType=DECIMAL}
+        </if>
+        <if test="class6 != null">
+            AND CLASS6 = #{class6,jdbcType=DECIMAL}
+        </if>
+        <if test="class7 != null">
+            AND CLASS7 = #{class7,jdbcType=DECIMAL}
+        </if>
+        <if test="class8 != null">
+            AND CLASS8 = #{class8,jdbcType=DECIMAL}
+        </if>
+        <if test="class9 != null">
+            AND CLASS9 = #{class9,jdbcType=DECIMAL}
+        </if>
+        <if test="class10 != null">
+            AND CLASS10 = #{class10,jdbcType=DECIMAL}
+        </if>
+        <if test="class11 != null">
+            AND CLASS11 = #{class11,jdbcType=DECIMAL}
+        </if>
+        <if test="class12 != null">
+            AND CLASS12 = #{class12,jdbcType=DECIMAL}
+        </if>
+        <if test="del_flag != null">
+            AND DEL_FLAG = #{del_flag,jdbcType=DECIMAL}
+        </if>
+        <if test="del_flag == null">
+            AND DEL_FLAG = 1
+        </if>
+        ORDER BY CLASSROOM_CUR_MAN
+    </sql>
+</mapper>

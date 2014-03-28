@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Panelo - Free Admin Template</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'>
+    <!-- jQuery file -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        $(function() {
+            $('#tabsmenu').tabify();
+            $(".toggle_container").hide();
+            $(".trigger").click(function(){
+                $(this).toggleClass("active").next().slideToggle("slow");
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="panelwrap">
+
+<div class="header">
+    <div class="title"><a href="#">Panelo Admin</a></div>
+
+    <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+
+    <div class="menu">
+        <ul>
+            <li><a href="#" class="selected">Main page</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Add a category</a></li>
+            <li><a href="#">Edit categories</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Options</a></li>
+            <li><a href="#">Admin settings</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="submenu">
+    <ul>
+        <li><a href="#" class="selected">settings</a></li>
+        <li><a href="#">users</a></li>
+        <li><a href="#">categories</a></li>
+        <li><a href="#">edit section</a></li>
+        <li><a href="#">templates</a></li>
+    </ul>
+</div>
+
+<div class="center_content">
+
+<div id="right_wrap">
+    <div id="right_content">
+
+
+    </div>
+</div><!-- end of right content-->
+
+
+<div class="sidebar" id="sidebar">
+    <h2>Browse categories</h2>
+
+    <ul>
+        <li><a href="#" class="selected">Main page</a></li>
+        <li><a href="#">Template settings</a></li>
+        <li><a href="#">Add page</a></li>
+        <li><a href="#">Edit section</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Clients</a></li>
+    </ul>
+
+    <h2>Page Section</h2>
+
+    <ul>
+        <li><a href="#">Edit section</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Clients</a></li>
+        <li><a href="#">Docs and info</a></li>
+    </ul>
+
+    <h2>User Settings</h2>
+
+    <ul>
+        <li><a href="#">Edit user</a></li>
+        <li><a href="#">Add users</a></li>
+        <li><a href="#">Manage users</a></li>
+        <li><a href="#">Help</a></li>
+    </ul>
+
+    <h2>Text Section</h2>
+    <div class="sidebar_section_text">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+
+</div>
+
+
+<div class="clear"></div>
+</div> <!--end of center_content-->
+
+<div class="footer">
+    <div>
+        <table style="text-align:center;margin-left:auto;margin-right:auto;">
+            <tbody>
+            <tr >
+                <td><a href="http://www.mycodes.net/" title="联系我们" target="_blank">联系我们</a></td>
+                <td><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td><a href="http://www.mycodes.net/" title="意见建议" target="_blank">意见建议</a></td>
+                <td><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td><a href="http://www.mycodes.net/" title="意见建议" target="_blank">客户端下载</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+</html>

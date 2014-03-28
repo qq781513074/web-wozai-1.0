@@ -1,0 +1,11 @@
+//todo guide
+在service中不处理异常 用于Spring处理事务
+save*
+del*
+update*
+add*
+find*
+get*
+apply*
+insert*
+这些方法默认带上事务  注意！
