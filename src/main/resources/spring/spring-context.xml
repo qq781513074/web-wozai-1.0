@@ -20,8 +20,8 @@
 
     <bean id="sampleDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
-        <property name="url" value="jdbc:mysql://192.168.56.101:3306/zzhdb?useUnicode=true&amp;characterEncoding=utf8" />
-        <property name="username" value="zzh" />
+        <property name="url" value="jdbc:mysql://localhost:3306/zzhdb?useUnicode=true&amp;characterEncoding=utf8" />
+        <property name="username" value="root" />
         <property name="password" value="mysql" />
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 

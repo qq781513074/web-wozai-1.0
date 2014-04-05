@@ -1,5 +1,6 @@
 package com.wozai.cache;
 
+import com.wozai.common.utils.catchnuist.SimpleLogin;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,11 +23,21 @@ import java.util.List;
  * Created by zengzihao on 2014/3/25.
  */
 public class HttpLoginHelper implements Serializable {
-    private static String url = "http://wlkt.nuist.edu.cn/(S(mfwuze45scrhq5451idrrx55))/default.aspx";
+    public static String url = "http://wlkt.nuist.edu.cn/(S(syvwth45p4j0wbvjq3raycvw))/default.aspx";
     private static String serverUrl = "http://localhost:8080/mobile/loginByNuist.htm";
     private static String searchUrl = "http://localhost:8080/mobile/search.htm?lat=118.726503&lng=32.212224";
-    private static String __VIEWSTATE = "	/wEPDwUKMTM5MjUxOTk4Nw9kFgJmD2QWHgICDxAPFgIeB1Zpc2libGVoZGQWAWZkAgMPEA8WAh8AaGRkZGQCBA8QDxYCHwBoZGRkZAIFDxAPFgIeBFRleHQFCeaVmeWKoeWkhGRkZGQCBg8QDxYCHwBoZGRkZAIHDxAPFgIfAQUG5a2m6ZmiZGRkZAIIDxAPFgIfAQUG5a2m5YqeZGRkZAIJDxAPFgIfAGhkZGRkAgoPEA8WAh8BBQbmlZnluIhkZGRkAgsPEA8WAh8BBQblrabnlJ9kZGRkAgwPEA8WAh8AaGRkZGQCDQ8QDxYCHwBoZGRkZAIODxAPFgIfAGhkZGRkAg8PEA8WAh8AaGRkZGQCEA8QDxYCHwBoZGRkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WCQUMUmFkaW9CdXR0b240BQxSYWRpb0J1dHRvbjQFDFJhZGlvQnV0dG9uMgUMUmFkaW9CdXR0b24yBQxSYWRpb0J1dHRvbjUFDFJhZGlvQnV0dG9uNQUMUmFkaW9CdXR0b24xBQxSYWRpb0J1dHRvbjEFDFJhZGlvQnV0dG9uM8hkENze68v6MFI9hwYrSEN4tT9A";    private static String js = "RadioButton3";
+    public static String __VIEWSTATE = "/wEPDwUKMTM5MjUxOTk4Nw9kFgJmD2QWHgICDxAPFgIeB1Zpc2libGVoZGQWAWZkAgMPEA8WAh8AaGRkZGQCBA8QDxYCHwBoZGRkZAIFDxAPFgIeBFRleHQFCeaVmeWKoeWkhGRkZGQCBg8QDxYCHwBoZGRkZAIHDxAPFgIfAQUG5a2m6ZmiZGRkZAIIDxAPFgIfAQUG5a2m5YqeZGRkZAIJDxAPFgIfAGhkZGRkAgoPEA8WAh8BBQbmlZnluIhkZGRkAgsPEA8WAh8BBQblrabnlJ9kZGRkAgwPEA8WAh8AaGRkZGQCDQ8QDxYCHwBoZGRkZAIODxAPFgIfAGhkZGRkAg8PEA8WAh8AaGRkZGQCEA8QDxYCHwBoZGRkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WCQUMUmFkaW9CdXR0b240BQxSYWRpb0J1dHRvbjQFDFJhZGlvQnV0dG9uMgUMUmFkaW9CdXR0b24yBQxSYWRpb0J1dHRvbjUFDFJhZGlvQnV0dG9uNQUMUmFkaW9CdXR0b24xBQxSYWRpb0J1dHRvbjEFDFJhZGlvQnV0dG9uM8hkENze68v6MFI9hwYrSEN4tT9A";
     private static String Button1 = "登陆";
+   /* static{
+        SimpleLogin login = new SimpleLogin();
+        try {
+            login.getLoginPage("20101309076","19920424");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }*/
     public static Boolean LoginCheck(String username,String password) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);

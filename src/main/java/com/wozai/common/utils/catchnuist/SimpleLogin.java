@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
+import com.wozai.cache.HttpLoginHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
@@ -45,14 +45,17 @@ public class SimpleLogin {
 		//抓取网页 并获取其页面上的隐藏数据
 		String page = (String)HttpRequestUtil.info.get("page");
 		Map<String, String> map = new HashMap<String,String>();
-		StringUtils.setParam(map,page);
+		HttpLoginHelper.__VIEWSTATE = StringUtils.setParam(map,page).get("__VIEWSTATE");
+
 //		System.out.println(url.get("url"));
 		UrlEncodedFormEntity urlentity = setLoginValue(map,username,password);
 		//第一次尝试登陆 有问题 仅能获取到相关登陆的链接
 		httpResponse = HttpRequestUtil.request((String)resultMap.get("url"),urlentity, HttpRequestUtil.REQUEST_TYPE_POST, "UTF-8",this);
 		resultMap = HttpRequestUtil.getPage((String)resultMap.get("url"), httpResponse,this);
+
 		System.out.println(resultMap.get("url") + " + code :" + ((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode());
-		//第二次登陆 正常 
+		//第二次登陆 正常
+        HttpLoginHelper.url = (String) resultMap.get("url");
 		httpResponse = HttpRequestUtil.request((String) resultMap.get("url"), urlentity, HttpRequestUtil.REQUEST_TYPE_POST, "UTF-8",this);
 		resultMap = HttpRequestUtil.getPage((String)resultMap.get("url"), httpResponse,this);
 		httpResponse = (HttpResponse)resultMap.get("httpResponse");
