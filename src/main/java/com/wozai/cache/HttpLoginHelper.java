@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,21 +24,24 @@ import java.util.List;
  * Created by zengzihao on 2014/3/25.
  */
 public class HttpLoginHelper implements Serializable {
-    public static String url = "http://wlkt.nuist.edu.cn/(S(syvwth45p4j0wbvjq3raycvw))/default.aspx";
+    private static final Logger logger = Logger.getLogger("com.wozai.cache.HttpLoginHelper");
+    public static String url = "";
     private static String serverUrl = "http://localhost:8080/mobile/loginByNuist.htm";
-    private static String searchUrl = "http://localhost:8080/mobile/search.htm?lat=118.726503&lng=32.212224";
-    public static String __VIEWSTATE = "/wEPDwUKMTM5MjUxOTk4Nw9kFgJmD2QWHgICDxAPFgIeB1Zpc2libGVoZGQWAWZkAgMPEA8WAh8AaGRkZGQCBA8QDxYCHwBoZGRkZAIFDxAPFgIeBFRleHQFCeaVmeWKoeWkhGRkZGQCBg8QDxYCHwBoZGRkZAIHDxAPFgIfAQUG5a2m6ZmiZGRkZAIIDxAPFgIfAQUG5a2m5YqeZGRkZAIJDxAPFgIfAGhkZGRkAgoPEA8WAh8BBQbmlZnluIhkZGRkAgsPEA8WAh8BBQblrabnlJ9kZGRkAgwPEA8WAh8AaGRkZGQCDQ8QDxYCHwBoZGRkZAIODxAPFgIfAGhkZGRkAg8PEA8WAh8AaGRkZGQCEA8QDxYCHwBoZGRkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WCQUMUmFkaW9CdXR0b240BQxSYWRpb0J1dHRvbjQFDFJhZGlvQnV0dG9uMgUMUmFkaW9CdXR0b24yBQxSYWRpb0J1dHRvbjUFDFJhZGlvQnV0dG9uNQUMUmFkaW9CdXR0b24xBQxSYWRpb0J1dHRvbjEFDFJhZGlvQnV0dG9uM8hkENze68v6MFI9hwYrSEN4tT9A";
+    private static String searchUrl = "http://localhost:8080/mobile/search.htm";
+    public static String __VIEWSTATE = "";
     private static String Button1 = "登陆";
-   /* static{
+static{
         SimpleLogin login = new SimpleLogin();
         try {
             login.getLoginPage("20101309076","19920424");
+            logger.info("url = " + url);
+            logger.info("__VIEWSTATE = " + __VIEWSTATE);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }*/
+    }
     public static Boolean LoginCheck(String username,String password) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
