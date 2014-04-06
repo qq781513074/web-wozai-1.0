@@ -36,7 +36,7 @@ public class SimpleLogin {
 	public CookieStore cookie;
 	public Boolean getLoginPage(String username,String password) throws FileNotFoundException, IOException, InterruptedException{
 		//访问主页
-        logger.info("[用户信息]:" + username + " : " + password);
+        logger.info("[调用http查询用户信息]:" + username + " : " + password);
 		HttpResponse httpResponse = HttpRequestUtil.request(URL,null, HttpRequestUtil.REQUEST_TYPE_GET, "UTF-8",this);
 		System.out.println("URL + code :" + httpResponse.getStatusLine().getStatusCode());
 		//获取网页
@@ -54,8 +54,12 @@ public class SimpleLogin {
 		resultMap = HttpRequestUtil.getPage((String)resultMap.get("url"), httpResponse,this);
 
 		System.out.println(resultMap.get("url") + " + code :" + ((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode());
+        page = (String)HttpRequestUtil.info.get("page");
+        HttpLoginHelper.__VIEWSTATE = StringUtils.setParam(map,page).get("__VIEWSTATE");
+        logger.info("__VIEWSTATE = " + HttpLoginHelper.__VIEWSTATE );
 		//第二次登陆 正常
         HttpLoginHelper.url = (String) resultMap.get("url");
+        logger.info("__VIEWSTATE = " + HttpLoginHelper.__VIEWSTATE );
 		httpResponse = HttpRequestUtil.request((String) resultMap.get("url"), urlentity, HttpRequestUtil.REQUEST_TYPE_POST, "UTF-8",this);
 		resultMap = HttpRequestUtil.getPage((String)resultMap.get("url"), httpResponse,this);
 		httpResponse = (HttpResponse)resultMap.get("httpResponse");
