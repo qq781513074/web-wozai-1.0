@@ -138,9 +138,6 @@ public class ClassInfoTransfer {
     }
 
     public static void setPage(String lng,String lat){
-        //lat(纬度),lng (经度)
-        lng = "118.725272";
-        lat = "32.211753";
         logger.info("【用户信息：】 经纬度："+lng+","+lat);
         JSONObject json = new JSONObject();
         String url = new StringBuffer(Direction_API).append(lng).append(",").append(lat).toString();
