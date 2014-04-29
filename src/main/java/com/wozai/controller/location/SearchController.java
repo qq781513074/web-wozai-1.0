@@ -20,11 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/location")
 @Controller
 public class SearchController {
-    @Resource
-    private LoctionManagerService loctionManagerService;
-    @RequestMapping(value = "/search.htm",method = RequestMethod.GET)
-    public String checkUserAccount(String lng,String lat,String condition,String startIdx,String endIdx,Model model,HttpServletRequest request, HttpServletResponse response) {
-        model.addAttribute("jsonDTO",loctionManagerService.searchClassroom(lng,lat,condition,startIdx,endIdx).toJson());
-        return "json";
-    }
+//    @Resource
+//    private LoctionManagerService loctionManagerService;
+//    @RequestMapping(value = "/search.htm",method = RequestMethod.GET)
+//    public String checkUserAccount(String lng,String lat,String condition,String startIdx,String endIdx,Model model,HttpServletRequest request, HttpServletResponse response) {
+//        model.addAttribute("jsonDTO",loctionManagerService.getClassroom(lng,lat,condition,startIdx,endIdx).toJson());
+//        return "json";
+//    }
 }

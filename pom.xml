@@ -19,7 +19,7 @@
         <ognl_version>3.0.6</ognl_version>
         <javassist_version>3.15.0-GA</javassist_version>
         <servlet-api_version>6.1.5</servlet-api_version>
-        <spring_version>3.1.1.RELEASE</spring_version>
+        <spring_version>3.1.2.RELEASE</spring_version>
         <spring-servlet_version>3.1.0.RELEASE</spring-servlet_version>
         <aopalliance_version>1.0</aopalliance_version>
         <xwork-core_version>2.3.12</xwork-core_version>
@@ -186,7 +186,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>3.1.1.RELEASE</version>
+            <version>${spring_version}</version>
         </dependency>
         <!-- spring end -->
 

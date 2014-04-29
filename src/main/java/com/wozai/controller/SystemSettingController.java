@@ -3,6 +3,7 @@ package com.wozai.controller;
 import com.wozai.cache.LoginValueMap;
 import com.wozai.common.BaseAjaxController;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class SystemSettingController extends BaseAjaxController{
 
-    private static final Logger logger = Logger.getLogger("com.wozai.controller.SystemSettingController");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(SystemSettingController.class);
 
     @RequestMapping(value = "/system.htm",method = RequestMethod.GET)
     public String getSystemPage(HttpServletRequest request, HttpServletResponse response){

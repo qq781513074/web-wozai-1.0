@@ -16,7 +16,6 @@
 
     <!-- 把标记了@Controller注解的类转换为bean -->
     <context:component-scan base-package="com.wozai"/>
-
     <tx:jta-transaction-manager />
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="sampleDataSource" />
@@ -57,11 +56,31 @@
         使用注解的简单配置，相当于定义了 AnnotationMethodHandlerAdapter和 DefaultAnnotationHandlerMapping，
         以及一些消息转换，如：@RequestBody 、@ResponseBody
     -->
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
     <mvc:annotation-driven />
     <mvc:resources location="/WEB-INF/pages/" mapping="/css/**"/>
     <mvc:resources location="/WEB-INF/images/" mapping="/images/**"/>
     <!-- Request Mapping Adapter -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />-->
 
     <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -154,13 +173,29 @@
         <property name="startDelay" value="10000"/>
     </bean>
 
+    <bean id="searchConditionTaskJob" class="com.wozai.cache.SearchConditionTaskJob">
+        <constructor-arg name="searchConditionList" ref="searchConditionList"/>
+        <constructor-arg name="searchConditionService" ref="searchConditionService"/>
+    </bean>
+
+    <bean id="searchConditionTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="searchConditionTaskJob"/>
+        <property name="targetMethod" value="saveCondition"/>
+    </bean>
+
+    <bean id="searchConditionTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="searchConditionTask"/>
+        <property name="cronExpression" value="0 0/1 * * * ?"/>
+        <property name="startDelay" value="10000"/>
+    </bean>
+
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="destroy">
         <property name="triggers">
             <list>
                 <ref bean="loginAuthTaskTrigger"/>
                 <ref bean="searchResultTaskTrigger"/>
+                <ref bean="searchConditionTaskTrigger"/>
             </list>
         </property>
     </bean>
-
 </beans>

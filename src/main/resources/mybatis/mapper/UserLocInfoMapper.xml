@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserLocInfoMapper">
+    <resultMap id="BaseResultMap"  type="LocationRecord" >
+        <id column = "id"  property = "id"  jdbcType = "DECIMAL"/>
+        <result column = "record_id" property = "recordId" jdbcType = "DECIMAL"/>
+        <result column = "user_id" property = "userId" jdbcType = "VARCHAR"/>
+        <result column = "loc_info_id" property = "locInfoId" jdbcType = "DECIMAL"/>
+        <result column = "loc_id" property = "locId" jdbcType = "DECIMAL"/>
+        <result column = "method" property = "method" jdbcType = "VARCHAR"/>
+        <result column = "join_time" property = "joinTime" jdbcType = "TIMESTAMP"/>
+        <result column = "left_time" property = "leftTime" jdbcType = "TIMESTAMP"/>
+        <result column = "lat" property = "lat" jdbcType = "VARCHAR"/>
+        <result column = "lng" property = "lng" jdbcType = "VARCHAR"/>
+        <result column = "jfen" property = "jfen" jdbcType = "VARCHAR"/>
+    </resultMap>
+    <sql id="baseColumn">
+        record_id,user_id,loc_info_id,loc_id,method,join_time,left_time,
+        lat,lng,jfen
+    </sql>
+    <insert id="insertInfo" parameterType="LocationRecord">
+        INSERT INTO user_locs (user_id,loc_info_id,loc_id,method,join_time,left_time,lat,lng,jfen)
+        VALUES (
+        #{userId,jdbcType=VARCHAR},
+        #{locInfoId,jdbcType=VARCHAR},
+        #{locId,jdbcType=VARCHAR},
+         #{method,jdbcType=VARCHAR},
+        now(),
+        now(),
+        #{lat,jdbcType=VARCHAR},
+        #{lng,jdbcType=VARCHAR},
+        #{jfen,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="leftLoc" parameterType="LocationRecord">
+      UPDATE user_locs
+        <set>
+        left_time = #{leftTime,jdbcType=TIMESTAMP},jfen=#{jfen,jdbcType=VARCHAR}
+        </set>
+       WHERE  record_id = #{recordId,jdbcType=DECIMAL}
+    </update>
+    <select id="lastUserLoc" resultMap="BaseResultMap" parameterType="LocationRecord" >
+        SELECT
+        <include refid="baseColumn"/>
+            FROM user_locs WHERE user_id = #{userId,jdbcType=VARCHAR} AND date_format(join_time,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+          ORDER BY join_time DESC
+    </select>
+   <select id="earlyUser" resultMap="BaseResultMap" parameterType="LocationRecord">
+       SELECT
+       r1.record_id as record_id,r1.user_id as user_id,r1.loc_info_id as loc_info_id,r1.loc_id as loc_id,r1.method as method,r1.join_time as join_time ,r1.left_time as left_time,
+        r1.lat as lat,r1.lng as lng,r1.jfen as jfen
+        FROM user_locs r1
+       WHERE r1.user_id in (
+               SELECT r3.user_id FROM (SELECT @rownum:=@rownum+1 as rn,user_id FROM (
+               SELECT distinct  user_id  FROM user_locs
+                   WHERE date_format(join_time,'%Y-%m-%d') = date_format(#{joinTime,jdbcType=DATE},'%Y-%m-%d') ORDER BY join_time
+               )r4,(SELECT @rownum:=0) r ) r3
+       WHERE r3.rn &lt; 11)
+       AND join_time = (
+          SELECT MIN(join_time) FROM user_locs r2 WHERE r1.user_id = r2.user_id AND date_format(join_time,'%Y-%m-%d') = date_format(#{joinTime,jdbcType=DATE},'%Y-%m-%d')
+       )
+   </select>
+
+    <select id="userRank" resultType="int" parameterType="LocationRecord">
+        SELECT count(1)
+        FROM ( SELECT distinct  user_id  FROM user_locs
+        WHERE date_format(join_time,'%Y-%m-%d') = date_format(#{joinTime,jdbcType=DATE},'%Y-%m-%d') AND join_time &lt; IFNULL((
+            SELECT MIN(join_time) FROM user_locs  WHERE user_id = #{userId,jdbcType=VARCHAR} AND date_format(join_time,'%Y-%m-%d') = date_format(#{joinTime,jdbcType=DATE},'%Y-%m-%d')
+            ),now())  ORDER  BY join_time) r1
+    </select>
+
+    <select id="userLocTodayLastHis" resultMap="BaseResultMap" parameterType="LocationRecord">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM user_locs r1
+        WHERE user_id =  #{userId,jdbcType=VARCHAR} AND date_format(join_time,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+        AND join_time = (
+        SELECT MIN(join_time) FROM user_locs r2 WHERE r1.user_id = r2.user_id AND date_format(join_time,'%Y-%m-%d') = date_format(#{joinTime,jdbcType=DATE},'%Y-%m-%d')
+        ORDER BY join_time
+    </select>
+</mapper>

@@ -1,7 +1,8 @@
 package com.wozai.common;
 import com.wozai.DTO.JsonDTO;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.multiaction.*;
@@ -21,7 +22,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseAjaxController extends MultiActionController{
-    private static final Logger logger = Logger.getLogger(BaseAjaxController.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseAjaxController.class);
     private static DateFormat normalDateFormat;
     private static DateFormat otherDateFormat;
 
@@ -30,9 +31,6 @@ public class BaseAjaxController extends MultiActionController{
         PrintWriter pw = null;
         try {
             response.setContentType("text/javascript;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-store, max-age=0, no-cache, must-revalidate");
-            response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-            response.setHeader("Pragma", "no-cache");
              pw = response.getWriter();
             if (jsonDTO instanceof JsonDTO){
                 String json =  ((JsonDTO) jsonDTO).toJson();
@@ -92,10 +90,10 @@ public class BaseAjaxController extends MultiActionController{
             sb.append("&session:").append(request.getSession().getId());
         }
         sb.append("}");
-        logger.info("[Web] begin doSomething info = " + sb.toString());
+        logger.info("[Web] begin doSomething info = {}",sb.toString());
     }
     public void printOptInfo(Logger logger,HttpServletRequest request){
-        printOptInfo(logger,request,true);
+        printOptInfo(logger,request,false);
     }
 
 

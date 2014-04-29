@@ -7,6 +7,7 @@ import com.wozai.controller.classroom.DTO.ClassroomInfoResultDTO;
 import com.wozai.dao.SuperDao;
 import com.wozai.service.ClassroomManagerService;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ import java.util.List;
 @Controller
 public class ClassroomController extends BaseAjaxController {
 
-    private static final Logger logger = Logger.getLogger("com.wozai.controller.classroom.ClassroomController");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ClassroomController.class);
     @Resource
     ClassroomManagerService classroomManagerService;
 

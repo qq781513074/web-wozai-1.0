@@ -26,8 +26,8 @@ import java.util.List;
 public class HttpLoginHelper implements Serializable {
     private static final Logger logger = Logger.getLogger("com.wozai.cache.HttpLoginHelper");
     public static String url = "";
-    private static String serverUrl = "http://localhost:8080/mobile/loginByNuist.htm";
-    private static String searchUrl = "http://localhost:8080/mobile/search.htm";
+    private static String serverUrl = "http://www.iwozai.com/mobile/loginByNuist.htm";
+    private static String searchUrl = "http://www.iwozai.com/mobile/search.htm";
     public static String __VIEWSTATE = "";
     private static String Button1 = "登陆";
 static{
@@ -82,12 +82,12 @@ static{
             if(entity!=null){
                 InputStream is = entity.getContent();
                 int l ;
-                String result = "";
+                StringBuffer result = new StringBuffer();
                 byte[] buff = new byte[9192];
                 while( (l = is.read(buff)) != -1){
-                    result += new String(buff, 0, l, "UTF-8");
+                    result.append(new String(buff, 0, l, "UTF-8"));
                 }
-                if(result.contains("SUCCESS")){
+                if(result.toString().contains("SUCCESS")){
                     return true;
                 }else {
                     return false;
@@ -108,12 +108,12 @@ static{
             if(entity!=null){
                 InputStream is = entity.getContent();
                 int l ;
-                String result = "";
+                StringBuffer result = new StringBuffer();
                 byte[] buff = new byte[9192];
                 while( (l = is.read(buff)) != -1){
-                    result += new String(buff, 0, l, "UTF-8");
+                    result.append(new String(buff, 0, l, "UTF-8"));
                 }
-               if (result.contains("星期")){
+               if (result.toString().contains("星期")){
                    return true;
                }else {
                    return false;
@@ -122,6 +122,27 @@ static{
         }
         httpPost.abort();
         return false;
+    }
+
+    public static String getMsg(String url) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpPost = new HttpGet(url);
+        StringBuffer result= new StringBuffer();
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        if (httpResponse.getStatusLine().getStatusCode() == 200){
+            HttpEntity entity = httpResponse.getEntity();
+            if(entity!=null) {
+                InputStream is = entity.getContent();
+                int l;
+                result  = new StringBuffer();
+                byte[] buff = new byte[9192];
+                while ((l = is.read(buff)) != -1) {
+                    result.append(new String(buff, 0, l, "UTF-8"));
+                }
+            }
+        }
+        httpPost.abort();
+        return result.toString();
     }
     public static void main(String args[]) throws IOException {
         Runnable m = new Runnable(){
@@ -136,7 +157,7 @@ static{
                     j++;
                     try {
                         Date date = new Date();
-                        if(HttpLoginHelper.Login4Server("20101309076", "19920424")&& Login4Search()){
+                        if(HttpLoginHelper.Login4Server("20101309076", "19920424")){
                             i++;
                             System.out.println(i + "==========================" + j);
                         }
@@ -162,6 +183,18 @@ static{
         for(int i = 0 ; i < 100 ; i++){
             new Thread(m).start();
         }
+    }
 
+    public static void setParam(){
+        SimpleLogin login = new SimpleLogin();
+        try {
+            login.getLoginPage("20101309076","19920424");
+            logger.info("url = " + url);
+            logger.info("__VIEWSTATE = " + __VIEWSTATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

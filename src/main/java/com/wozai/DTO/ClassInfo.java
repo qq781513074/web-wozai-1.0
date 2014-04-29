@@ -226,4 +226,30 @@ public class ClassInfo extends BaseParamDTO{
         result = 31 * result + (class_date != null ? class_date.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ClassInfo{" +
+                "classroom_cur_man=" + classroom_cur_man +
+                ", classroom_max_man=" + classroom_max_man +
+                ", classroom_name='" + classroom_name + '\'' +
+                ", loc_id=" + loc_id +
+                ", curr_status='" + curr_status + '\'' +
+                ", curr_status_code=" + curr_status_code +
+                ", classroom_type='" + classroom_type + '\'' +
+                ", class1=" + class1 +
+                ", class2=" + class2 +
+                ", class3=" + class3 +
+                ", class4=" + class4 +
+                ", class5=" + class5 +
+                ", class6=" + class6 +
+                ", class7=" + class7 +
+                ", class8=" + class8 +
+                ", class9=" + class9 +
+                ", class10=" + class10 +
+                ", class11=" + class11 +
+                ", class12=" + class12 +
+                ", class_date=" + class_date +
+                '}';
+    }
 }

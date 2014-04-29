@@ -27,21 +27,23 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimpleLogin {
-    private static final Logger logger = Logger.getLogger("com.wozai.common.utils.catchnuist.SimpleLogin");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(SimpleLogin.class);
 	public final String URL = "http://wlkt.nuist.edu.cn";
 	public String rootUrl = "";
 	public String jscxUrl = "/public/jxcdkebiaoall.aspx";
 	public CookieStore cookie;
 	public Boolean getLoginPage(String username,String password) throws FileNotFoundException, IOException, InterruptedException{
 		//访问主页
-        logger.info("[调用http查询用户信息]:" + username + " : " + password);
+        logger.info("[调用http查询用户信息]:{} : {}",username,password);
 		HttpResponse httpResponse = HttpRequestUtil.request(URL,null, HttpRequestUtil.REQUEST_TYPE_GET, "UTF-8",this);
 		System.out.println("URL + code :" + httpResponse.getStatusLine().getStatusCode());
 		//获取网页
 		Map<String, Object> resultMap = HttpRequestUtil.getPage(URL, httpResponse,this);
-		System.out.println(resultMap.get("url") + " + code :" + ((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode());
+		logger.info(resultMap.get("url").toString());
+        logger.info(((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode() + "");
 		//抓取网页 并获取其页面上的隐藏数据
 		String page = (String)HttpRequestUtil.info.get("page");
 		Map<String, String> map = new HashMap<String,String>();
@@ -53,7 +55,8 @@ public class SimpleLogin {
 		httpResponse = HttpRequestUtil.request((String)resultMap.get("url"),urlentity, HttpRequestUtil.REQUEST_TYPE_POST, "UTF-8",this);
 		resultMap = HttpRequestUtil.getPage((String)resultMap.get("url"), httpResponse,this);
 
-		System.out.println(resultMap.get("url") + " + code :" + ((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode());
+        logger.info(resultMap.get("url").toString());
+        logger.info(((HttpResponse)resultMap.get("httpResponse")).getStatusLine().getStatusCode() + "");
         page = (String)HttpRequestUtil.info.get("page");
         HttpLoginHelper.__VIEWSTATE = StringUtils.setParam(map,page).get("__VIEWSTATE");
         logger.info("__VIEWSTATE = " + HttpLoginHelper.__VIEWSTATE );
@@ -133,9 +136,6 @@ public class SimpleLogin {
 		formparams.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
 		for(String key : map.keySet()){
 			formparams.add(new BasicNameValuePair(key, map.get(key)));
-		}
-		for(BasicNameValuePair bnv : formparams){
-			System.out.println(bnv.getName() + "  " + bnv.getValue());
 		}
 		UrlEncodedFormEntity urlentity;
 		urlentity = new UrlEncodedFormEntity(formparams, "UTF-8");

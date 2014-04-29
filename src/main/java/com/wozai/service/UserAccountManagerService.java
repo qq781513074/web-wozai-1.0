@@ -27,7 +27,7 @@ public class UserAccountManagerService {
 
     @Resource
     SuperDao superDao;
-
+    //todo  未使用
     public LoginReturnDTO tryLogin(HttpServletRequest request,String userId,String userPwd,Model model){
         LoginReturnDTO loginReturnDTO = new LoginReturnDTO();
         if(!StringUtils.isNotNull(userId)){
@@ -71,7 +71,7 @@ public class UserAccountManagerService {
     public int getWrongTimes(String userId){
           return 0;
     }
-
+    //todo  未使用
     public RegisterReturnDTO tryRegister(HttpServletRequest request,AccountInfo accountInfo,Model model){
         model.addAttribute("userId",accountInfo.getUserId());
         model.addAttribute("userPwd",accountInfo.getUserPwd());
@@ -121,5 +121,36 @@ public class UserAccountManagerService {
         }else {
             return false;
         }
+    }
+
+    public boolean addUser(AccountInfo info){
+        if (info.getUserId() == null){
+            return false;
+        }
+        if (userIdIsExsit(info.getUserId())){
+            //不管是否插入 只要保证有用户存在 即为真
+            return true;
+        }else {
+            logger.info("[用户管理]插入用户"+info);
+            if (info.getJfen() == null){
+                info.setJfen(0);
+            }
+          Integer i =  superDao.insert("AccountInfoMapper.createAccount",info);
+            if (i > 0){
+                logger.info("[用户管理]插入用户成功"+info);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public AccountInfo getUser(String userId){
+        logger.info("[查询用户]查询用户信息userid = " + userId);
+        return superDao.getObject("AccountInfoMapper.queryOneAccountInfo",userId);
+    }
+
+    public boolean updateUser(AccountInfo info){
+        logger.info("[查询用户]更新用户信息userid = " + info);
+        return superDao.update("AccountInfoMapper.updateInfo",info)>0 ? true : false;
     }
 }

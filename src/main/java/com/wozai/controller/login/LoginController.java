@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ import java.util.Calendar;
 @Controller
 public class LoginController extends BaseAjaxController{
     //使用logger打印日志
-    private static final Logger logger = Logger.getLogger("com.wozai.controller.login.LoginController");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Resource(name = "userAccount")
     UserAccountManagerService userAccountManager;
@@ -97,20 +98,20 @@ public class LoginController extends BaseAjaxController{
 //                  return errorView;
 //              }
        }catch (CredentialsException e) {
-           logger.info("用户登录密码错误, msg:" + e.getMessage());
+           logger.info("用户登录密码错误, msg:" , e.getMessage());
            long usingtimes = Calendar.getInstance().getTimeInMillis() - beginDate;
-           logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes));
+           logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes).toString());
            model.addAttribute("error", "登陆失败！");
            return errorView;
        }catch (AuthenticationException e) {
            logger.info("用户登录密码错误, msg:" + e.getMessage());
            long usingtimes = Calendar.getInstance().getTimeInMillis() - beginDate;
-           logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes));
+           logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes).toString());
            model.addAttribute("error", "登陆失败！");
            return errorView;
        }catch (Exception e){
           long usingtimes = Calendar.getInstance().getTimeInMillis() - beginDate;
-            logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes),e);
+            logger.info(new StringBuffer("User Try Login Fail! UserId:").append(username).append(e.toString()).append("UsingTimes ：").append(usingtimes).toString(),e);
            model.addAttribute("error", "登陆失败！");
            return errorView;
         }

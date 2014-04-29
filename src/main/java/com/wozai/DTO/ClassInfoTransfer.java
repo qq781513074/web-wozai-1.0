@@ -1,11 +1,19 @@
 package com.wozai.DTO;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
+import sun.net.www.http.HttpClient;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -13,16 +21,12 @@ import java.util.*;
  * Created by Administrator on 14-2-25.
  */
 public class ClassInfoTransfer {
-    private static final Logger logger = Logger.getLogger("com.wozai.DTO.ClassInfoTransfer");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ClassInfoTransfer.class);
     public static final String Direction_API = "http://api.map.baidu.com/geosearch/v3/nearby?ak=YkKmBRaQQqTgxGZwuWg3fVnr&geotable_id=52520&coord_type=3&radius=100000&location=";
-    public static String page = "";
-    public static Map<Long,String> distanceMap = new HashMap<Long, String>();
     public static ClassInfo transfer2Query(String condition,String lng,String lat,String startIdx,String endIdx){
-        setPage(lng,lat);
         if(condition == null){
             condition = "";
         }
-            logger.info("【用户信息：】输入条件:"+Arrays.toString(condition.getBytes()) + condition);
         ClassInfo classInfo = new ClassInfo();
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
         if(condition.contains("上午")){
@@ -43,8 +47,6 @@ public class ClassInfoTransfer {
             classInfo.setClass11(0);
             classInfo.setClass12(0);
         }
-        logger.info(condition.contains("明天")  +""+ !isEmpty(classInfo));
-        logger.info(Arrays.toString("明天".getBytes()) +Arrays.toString(condition.getBytes())   +""+ !isEmpty(classInfo));
         if(condition.contains("明天")){
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             classInfo.setClass_date(calendar.get(Calendar.DAY_OF_WEEK) - 1 == 0 ? 7 : calendar.get(Calendar.DAY_OF_WEEK) - 1);
@@ -57,7 +59,6 @@ public class ClassInfoTransfer {
                 classInfo.setClass6(0);
                 classInfo.setClass7(0);
                 classInfo.setClass8(0);
-
             }
         }
         if(condition.contains("后天")){
@@ -124,7 +125,10 @@ public class ClassInfoTransfer {
     }
 
     public static List<Classroom> transfer2Result(List<ClassInfo> list,String lng,String lat){
-        setDistance();
+        if (list == null){
+            return new ArrayList<Classroom>();
+        }
+        Map<Long,String> distanceMap = setDistance(lng,lat);
         List<Classroom> result = new ArrayList<Classroom>();
         for(ClassInfo c : list){
             Classroom classroom = new Classroom();
@@ -137,33 +141,41 @@ public class ClassInfoTransfer {
         return result;
     }
 
-    public static void setPage(String lng,String lat){
-        logger.info("【用户信息：】 经纬度："+lng+","+lat);
+
+    private static Map<Long,String> setDistance(String lng,String lat){
+        logger.info("【用户信息：】 经纬度：{}{}",lng,lat);
         JSONObject json = new JSONObject();
         String url = new StringBuffer(Direction_API).append(lng).append(",").append(lat).toString();
+        Map<Long,String> distanceMap = new HashMap<Long,String>();
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(url);
         try {
-            page = HttpRequestUtil.request(url, null, HttpRequestUtil.REQUEST_TYPE_GET, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public static void setDistance(){
-        JSONObject json ;
-        try {
-            page = page.replaceAll("\"","'");
-            json = new JSONObject(page);
+            logger.info("[查询百度LBS]经纬度：{} {}",lng,lat);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity entity = httpResponse.getEntity();
+            StringBuffer result = new StringBuffer();
+            if(entity!=null){
+                InputStream is = entity.getContent();
+                int l ;
+                byte[] buff = new byte[9192];
+                while( (l = is.read(buff)) != -1){
+                    result.append(new String(buff, 0, l, "UTF-8"));
+                }
+            }
+            json  = new JSONObject(result.toString());
             JSONArray jsonArray = json.getJSONArray("contents");
-            if (jsonArray != null && jsonArray.length() <= 0) {
-                return ;
+            if (jsonArray == null || jsonArray.length() <= 0) {
+
             }else{
                 for(int i = 0; i < jsonArray.length(); i++){
                     JSONObject jsonObject2 = (JSONObject) jsonArray.opt(i);
                     distanceMap.put(Long.valueOf(jsonObject2.getInt("loc_id")), jsonObject2.getInt("distance") + "米");
                 }
             }
-        } catch (JSONException e) {
-            logger.info("JSONException : msg = " + page,e);
+        } catch (Exception e) {
+            logger.info("[查询百度LBS]失败",e);
         }
+        return distanceMap;
     }
     public static void setClassEmpty(ClassInfo c){
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -248,5 +260,10 @@ public class ClassInfoTransfer {
         }
         sb.append("无课");
         return sb.toString();
+    }
+    public static void main(String args[]){
+        Date date = new Date();
+        System.out.println(setDistance("118.726326","32.212154"));
+        System.out.println(new Date().getTime()-date.getTime());
     }
 }

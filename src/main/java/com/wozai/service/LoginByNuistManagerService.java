@@ -1,5 +1,6 @@
 package com.wozai.service;
 
+import com.wozai.DTO.AccountInfo;
 import com.wozai.cache.HttpLoginHelper;
 import com.wozai.cache.LoginCheckFailList;
 import com.wozai.cache.LoginObj;
@@ -25,6 +26,8 @@ public class LoginByNuistManagerService {
     private LoginSuccessMap<String,LoginObj> loginSuccessMap;
     @Resource
     private LoginCheckFailList<String> loginCheckFailList;
+    @Resource
+    private UserAccountManagerService userAccount;
 
 
     public String login4Nuist(String username,String password,String serialNo) {
@@ -40,12 +43,26 @@ public class LoginByNuistManagerService {
                 LoginObj user = loginSuccessMap.get(username);
                 if (user.getUsername().equals(obj.getUsername()) && user.getPassword().equals(obj.getPassword())) {
                     obj.setSerialNo(serialNo);
+                    logger.info("[mobile] user" + username + "从缓存中登陆成功");
+                    AccountInfo info = new AccountInfo();
+                    info.setUserId(username);
+                    info.setCreateTime(new Date());
+                    info.setUserStatus("学号登陆|正常");
+                    info.setJfen(0);
+                    userAccount.addUser(info);
                     return "SUCCESS";
                 }
             }
             try {
                 if (HttpLoginHelper.LoginCheck(username, password)) {
                     loginSuccessMap.put(username, obj);
+                    logger.info("[mobile] user"+username+"从web中登陆成功");
+                    AccountInfo info = new AccountInfo();
+                    info.setUserId(username);
+                    info.setCreateTime(new Date());
+                    info.setUserStatus("学号登陆|正常");
+                    info.setJfen(0);
+                    userAccount.addUser(info);
                     return "SUCCESS";
                 } else {
                     return "FAILED";

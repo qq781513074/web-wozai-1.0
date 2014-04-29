@@ -1,1 +1,1 @@
-<% response.sendRedirect("/welcome.htm"); %>
+<% response.sendRedirect("/index/index.html"); %>

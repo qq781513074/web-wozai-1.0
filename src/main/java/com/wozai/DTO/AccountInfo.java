@@ -2,6 +2,8 @@ package com.wozai.DTO;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: wyzengzihao
@@ -12,12 +14,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class AccountInfo {
    private String userId;
     private String nickname;
-    private String locInfo;
-    private int unreadMsg;
-    private int wrongTimes;
+    private Integer unreadMsg;
+    private Integer wrongTimes;
     private String userPwd;
     private String userStatus;
+    private String locId;
     private String defaultLoc;
+    private Date createTime;
+    private Integer jfen;
     public String getUserId() {
         return userId;
     }
@@ -34,28 +38,16 @@ public class AccountInfo {
         this.nickname = nickname;
     }
 
-    public String getLocInfo() {
-        return locInfo;
-    }
-
-    public void setLocInfo(String locInfo) {
-        this.locInfo = locInfo;
-    }
-
-    public int getUnreadMsg() {
+    public Integer getUnreadMsg() {
         return unreadMsg;
     }
 
-    public void setUnreadMsg(int unreadMsg) {
+    public void setUnreadMsg(Integer unreadMsg) {
         this.unreadMsg = unreadMsg;
     }
 
-    public int getWrongTimes() {
+    public Integer getWrongTimes() {
         return wrongTimes;
-    }
-
-    public void setWrongTimes(int wrongTimes) {
-        this.wrongTimes = wrongTimes;
     }
 
     public String getUserPwd() {
@@ -74,11 +66,6 @@ public class AccountInfo {
         this.userStatus = userStatus;
     }
 
-    @Override
-    public String toString(){
-        return ToStringBuilder.reflectionToString(this);
-    }
-
     public String getDefaultLoc() {
         return defaultLoc;
     }
@@ -86,4 +73,36 @@ public class AccountInfo {
     public void setDefaultLoc(String defaultLoc) {
         this.defaultLoc = defaultLoc;
     }
+
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getJfen() {
+        return jfen;
+    }
+
+    public void setJfen(Integer jfen) {
+        this.jfen = jfen;
+    }
+
+
+
+    public void setWrongTimes(Integer wrongTimes) {
+        this.wrongTimes = wrongTimes;
+    }
+
+    public String getLocId() {
+        return locId;
+    }
+
+    public void setLocId(String locId) {
+        this.locId = locId;
+    }
+
 }

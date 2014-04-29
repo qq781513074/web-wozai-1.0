@@ -67,73 +67,73 @@
 
     <update id="updateInfo" parameterType="ClassroomInfoParamDTO">
         UPDATE class_info
-        SET
-        CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR}
-        <if test="classroom_cur_man != null">
-          ,CLASSROOM_CUR_MAN = #{classroom_cur_man,jdbcType=DECIMAL}
-        </if>
-        <if test="classroom_max_man != null">
-           ,CLASSROOM_MAX_MAN = #{classroom_max_man,jdbcType=DECIMAL}
-        </if>
-        <if test="loc_id != null">
-           ,LOC_ID  = #{loc_id,jdbcType=DECIMAL},
-        </if>
-        <if test="curr_status != null">
-          ,CURR_STATUS = #{curr_status,jdbcType=VARCHAR}
-        </if>
-        <if test="curr_status_code != null">
-           ,CURR_STATUS_CODE = #{curr_status_code,jdbcType=DECIMAL}
-        </if>
-        <if test="classroom_type != null">
-            ,CLASSROOM_TYPE = #{classroom_type,jdbcType=VARCHAR}
-        </if>
-        <if test="class1 != null">
-          ,CLASS1 = #{class1,jdbcType=DECIMAL}
-        </if>
-        <if test="class2 != null">
-            ,CLASS2 = #{class2,jdbcType=DECIMAL}
-        </if>
-        <if test="class3 != null">
-            ,CLASS3 = #{class3,jdbcType=DECIMAL}
-        </if>
-        <if test="class4 != null">
-            ,CLASS4 = #{class4,jdbcType=DECIMAL}
-        </if>
-        <if test="class5 != null">
-            ,CLASS5 = #{class5,jdbcType=DECIMAL}
-        </if>
-        <if test="class6 != null">
-            ,CLASS6 = #{class6,jdbcType=DECIMAL}
-        </if>
-        <if test="class7 != null">
-            ,CLASS7 = #{class7,jdbcType=DECIMAL}
-        </if>
-        <if test="class8 != null">
-            ,CLASS8 = #{class8,jdbcType=DECIMAL}
-        </if>
-        <if test="class9 != null">
-            ,CLASS9 = #{class9,jdbcType=DECIMAL}
-        </if>
-        <if test="class10 != null">
-            ,CLASS10 = #{class10,jdbcType=DECIMAL}
-        </if>
-        <if test="class11 != null">
-            ,CLASS11 = #{class11,jdbcType=DECIMAL}
-        </if>
-        <if test="class12 != null">
-            ,CLASS12 = #{class12,jdbcType=DECIMAL}
-        </if>
-        <if test="del_flag != null">
-            ,DEL_FLAG = #{del_flag,jdbcType=DECIMAL}
-        </if>
+       <set>
+           CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR}
+           <if test="classroom_cur_man != null">
+               ,CLASSROOM_CUR_MAN = #{classroom_cur_man,jdbcType=DECIMAL}
+           </if>
+           <if test="classroom_max_man != null">
+               ,CLASSROOM_MAX_MAN = #{classroom_max_man,jdbcType=DECIMAL}
+           </if>
+           <if test="loc_id != null">
+               ,LOC_ID  = #{loc_id,jdbcType=DECIMAL},
+           </if>
+           <if test="curr_status != null">
+               ,CURR_STATUS = #{curr_status,jdbcType=VARCHAR}
+           </if>
+           <if test="curr_status_code != null">
+               ,CURR_STATUS_CODE = #{curr_status_code,jdbcType=DECIMAL}
+           </if>
+           <if test="classroom_type != null">
+               ,CLASSROOM_TYPE = #{classroom_type,jdbcType=VARCHAR}
+           </if>
+           <if test="class1 != null">
+               ,CLASS1 = #{class1,jdbcType=DECIMAL}
+           </if>
+           <if test="class2 != null">
+               ,CLASS2 = #{class2,jdbcType=DECIMAL}
+           </if>
+           <if test="class3 != null">
+               ,CLASS3 = #{class3,jdbcType=DECIMAL}
+           </if>
+           <if test="class4 != null">
+               ,CLASS4 = #{class4,jdbcType=DECIMAL}
+           </if>
+           <if test="class5 != null">
+               ,CLASS5 = #{class5,jdbcType=DECIMAL}
+           </if>
+           <if test="class6 != null">
+               ,CLASS6 = #{class6,jdbcType=DECIMAL}
+           </if>
+           <if test="class7 != null">
+               ,CLASS7 = #{class7,jdbcType=DECIMAL}
+           </if>
+           <if test="class8 != null">
+               ,CLASS8 = #{class8,jdbcType=DECIMAL}
+           </if>
+           <if test="class9 != null">
+               ,CLASS9 = #{class9,jdbcType=DECIMAL}
+           </if>
+           <if test="class10 != null">
+               ,CLASS10 = #{class10,jdbcType=DECIMAL}
+           </if>
+           <if test="class11 != null">
+               ,CLASS11 = #{class11,jdbcType=DECIMAL}
+           </if>
+           <if test="class12 != null">
+               ,CLASS12 = #{class12,jdbcType=DECIMAL}
+           </if>
+           <if test="del_flag != null">
+               ,DEL_FLAG = #{del_flag,jdbcType=DECIMAL}
+           </if>
+       </set>
         WHERE
         CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}
     </update>
     <update id="deleteInfo" parameterType="ClassroomInfoParamDTO">
       UPDATE class_info
         SET
-        DEL_FLAG = 0
-      FROM class_info WHERE  CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}
+        DEL_FLAG = 0 WHERE  CLASSROOM_NAME = #{classroom_name,jdbcType=VARCHAR} AND class_date = #{class_date,jdbcType=DECIMAL}
     </update>
     <delete id="doRealdelete" parameterType="ClassroomInfoParamDTO">
        DELETE class_info

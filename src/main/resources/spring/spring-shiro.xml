@@ -7,17 +7,21 @@
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/login.htm" />
+        <property name="loginUrl" value="/index/index.html" />
         <property name="successUrl" value="/welcome.htm" />
         <property name="unauthorizedUrl" value="/htmls/nopermission.html" />
         <property name="filterChainDefinitions">
             <value>
                 /css/** = anon
+                /index.htm = anon
                 /htmls/** = anon
                 /images/** = anon
                 /js/** = anon
                 /mobile/** = anon
                 /htmls/** = anon
+                /appweb/** = anon
+                /index/** = anon
+                /login.htm = anon
                 /logout = logout
                 /pages/manage/** = roles[admin]
                 /permission/** = perms[permssion:look]

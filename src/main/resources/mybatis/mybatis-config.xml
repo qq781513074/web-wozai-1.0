@@ -9,9 +9,13 @@
         <typeAlias alias="ClassroomInfoResultDTO" type="com.wozai.controller.classroom.DTO.ClassroomInfoResultDTO" />
         <typeAlias alias="AccountInfo" type="com.wozai.DTO.AccountInfo" />
         <typeAlias alias="ClassInfo" type="com.wozai.DTO.ClassInfo" />
+        <typeAlias alias="LocationRecord" type="com.wozai.DTO.LocationRecord"/>
+        <typeAlias alias="SearchCondition" type="com.wozai.DTO.SearchCondition"/>
     </typeAliases>
 
     <mappers>
+        <mapper resource="mybatis/mapper/SearchConditionMapper.xml"/>
+        <mapper resource="mybatis/mapper/UserLocInfoMapper.xml"/>
         <mapper resource="mybatis/common/ReuseSQL.xml"/>
         <mapper resource="mybatis/mapper/AccountInfoMapper.xml" />
         <mapper resource="mybatis/mapper/SearchLocMapper.xml" />
